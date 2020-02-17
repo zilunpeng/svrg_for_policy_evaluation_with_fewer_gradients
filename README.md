@@ -8,7 +8,7 @@ Stochastic variance-reduced gradient (SVRG) is an optimization method originally
   <img height=300 src="imgs/single_pass_random_mdp.png">
 </p>
 
-Batching SVRG and SCSG are our proposed method. The above result shows that our proposed methods perform policy evaluation effectively within a single pass through the dataset.
+Batching SVRG and SCSG are our proposed method. The above result shows that our proposed methods perform policy evaluation effectively within a single pass through the dataset. More experiment results can be found in my thesis.
 
 ## Links to our paper and my thesis:
 <a href="https://arxiv.org/abs/1906.03704">Arxiv paper</a>
