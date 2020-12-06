@@ -3,9 +3,16 @@ from experiment_Setup import *
 import gym
 import h5py
 import progressbar
+from MDP_env import RandomMDP
 
 class policy_iteration:
-    def __init__(self, exp_setup=None, policy_iteration_episode=0, num_data=20000, gamma=0.95, is_saving=False, saving_path='', is_loading=False, loading_path='', init_method='random'):
+    def __init__(self,
+                 exp_setup=None,
+                 policy_iteration_episode=0, 
+                 num_data=20000, gamma=0.95,
+                 is_saving=False, saving_path='',
+                 is_loading=False, loading_path='',
+                 init_method='random'):
         self.exp_setup = exp_setup
         self.policy_iteration_episode = policy_iteration_episode
         self.num_data = num_data
@@ -863,7 +870,7 @@ class Acrobot_Policy_Iteration(continuous_env_policy_iteration, gym_env_policy_i
     def __init__(self, exp_setup, num_data=5000, gamma=0.95, feature_type='approx', num_rbf_means=3, rbf_sigma=1, add_const_one_to_feature=True, is_saving=False, saving_path=None, is_loading=True, loading_path=None, policy_iteration_episode=0, init_method='random', is_normalizing_rbf_feature=False, add_small_identity_to_A_C=False):
         continuous_env_policy_iteration.__init__(self, feature_type, num_rbf_means, rbf_sigma, exp_setup, policy_iteration_episode, num_data, gamma, is_saving, saving_path, is_loading, loading_path, add_const_one_to_feature, state_dim=4, init_method=init_method, add_small_identity_to_A_C=add_small_identity_to_A_C)
         self.env = gym.make('Acrobot-v1')
-        self.init_theta_omega_multiplier = -1
+        self.init_theta_omega_multiplier = 10
         self.num_actions = 3
         if feature_type == 'rbf':
             self.useful_state_inds = np.array([0,2,4,5])

@@ -5,7 +5,7 @@ import numpy as np
 from torch.utils import data
 import torch.multiprocessing as mp
 from optim_alg import *
-import progressbar
+from tqdm import tqdm
 
 class svrg(stoc_var_reduce_alg):
 
@@ -89,7 +89,7 @@ class svrg_classic(svrg):
     def _run(self):
         svrg.load_mdp_data(self)
         svrg.init_alg(self)
-        if self.terminate_if_less_than_epsilon==False: progress_bar = progressbar.ProgressBar(max_value=self.num_epoch*2)
+        if self.terminate_if_less_than_epsilon==False: progress_bar = tqdm(range(self.num_epoch*2))
 
         while self.check_termination_cond():
             theta_tilde = self.theta.clone()
@@ -131,7 +131,7 @@ class pdbg(svrg):
     def _run(self):
         svrg.load_mdp_data(self)
         svrg.init_alg(self)
-        progress_bar = progressbar.ProgressBar(max_value=self.num_epoch)
+        progress_bar = tqdm(range(self.num_epoch))
         self.A = self.A + self.rho_ac*torch.eye(self.nFeatures, dtype=torch.float32, device=self.device)
         self.C = self.C + self.rho_ac*torch.eye(self.nFeatures, dtype=torch.float32, device=self.device)
 
@@ -203,7 +203,7 @@ class batch_svrg(svrg):
         outer_loop_batch_size = int(self.num_data * self.batch_svrg_init_ratio)
         full_dataset = mdp_dataset(self)
 
-        if self.terminate_if_less_than_epsilon == False: progress_bar = progressbar.ProgressBar(max_value=self.num_epoch*2)
+        if self.terminate_if_less_than_epsilon == False: progress_bar = tqdm(range(self.num_epoch*2))
         while self.check_termination_cond():
             theta_tilde = self.theta.clone()
             omega_tilde = self.omega.clone()
@@ -269,7 +269,7 @@ class gtd2(svrg):
             return {'theta':self.theta, 'omega':self.omega, 'result': self.result, 'sigma_theta': self.sigma_theta, 'sigma_omega': self.sigma_omega, 'name': self.name, 'record_per_dataset_pass':self.record_per_dataset_pass, 'record_per_epoch':self.record_per_epoch, 'comp_cost':self.num_pass, 'rho': self.rho, 'rho_ac': self.rho_ac}
 
     def run_with_outerloop(self):
-        if self.terminate_if_less_than_epsilon == False: progress_bar = progressbar.ProgressBar(max_value=self.num_epoch)
+        if self.terminate_if_less_than_epsilon == False: progress_bar = tqdm(range(self.num_epoch))
         while self.check_termination_cond():
             for batch_A_t, batch_b_t, batch_C_t, batch_t_m in self.data_generator:
                 batch_size = batch_t_m.shape[0]
@@ -284,7 +284,7 @@ class gtd2(svrg):
             if self.terminate_if_less_than_epsilon == False: progress_bar.update(self.num_pass)
 
     def run_with_epoch(self):
-        progress_bar = progressbar.ProgressBar(max_value=self.num_epoch)
+        progress_bar = tqdm(max_value=self.num_epoch)
         sampler = data.RandomSampler(torch.arange(self.num_data), replacement=True, num_samples=self.num_epoch)
         self.data_generator = data.DataLoader(mdp_dataset(self), batch_size=self.batch_size, sampler=sampler, num_workers=self.num_workers, drop_last=False)
         for batch_A_t, batch_b_t, batch_C_t, batch_t_m in self.data_generator:
@@ -327,7 +327,7 @@ class saga(svrg):
         self.num_grad_eval += self.num_data
         if self.record_per_dataset_pass: self.check_complete_data_pass()
 
-        if self.terminate_if_less_than_epsilon==False: progress_bar = progressbar.ProgressBar(max_value=self.num_epoch+50)
+        if self.terminate_if_less_than_epsilon==False: progress_bar = tqdm(range(self.num_epoch+50))
         while self.check_termination_cond():
             for batch_A_t, batch_b_t, batch_C_t, batch_t_m in self.data_generator:
                 batch_size = batch_t_m.shape[0]
@@ -376,7 +376,7 @@ class scsg(svrg):
         geom_dist_p = 1/(scsg_batch_size+1)
         #rho = 1e-2*mspbe.calc_L_rho(self)
 
-        if self.terminate_if_less_than_epsilon==False: progress_bar = progressbar.ProgressBar(max_value=self.num_epoch+50)
+        if self.terminate_if_less_than_epsilon==False: progress_bar = tqdm(max_value=self.num_epoch+50)
         while self.check_termination_cond():
             theta_tilde = self.theta.clone()
             omega_tilde = self.omega.clone()
