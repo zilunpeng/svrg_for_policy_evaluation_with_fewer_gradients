@@ -35,7 +35,6 @@ if __name__ == '__main__':
         pi_env = get_pi_env(env_type="rmdp", exp_setup=exp_setup, loading_path="", is_loading=False, saving_path="./", is_saving=True, 
     	                    policy_iteration_episode=1, init_method="zero", num_data=5000)
         results.extend(pi_env.run_policy_iteration())
-        print("finished one epoch")
     pd.DataFrame(pi_results).to_pickle('./rmdp_results.pkl')
 
 
@@ -58,7 +57,6 @@ if __name__ == '__main__':
         pi_env = get_pi_env(env_type="mc", exp_setup=exp_setup, loading_path="", is_loading=False, saving_path="./", is_saving=True, 
     	                    policy_iteration_episode=1, init_method="zero", num_data=5000)
         results.extend(pi_env.run_policy_iteration())
-        print("finished one epoch")
     pd.DataFrame(pi_results).to_pickle('./mc_results.pkl')
 
 
@@ -81,7 +79,6 @@ if __name__ == '__main__':
         pi_env = get_pi_env(env_type="cp", exp_setup=exp_setup, loading_path="", is_loading=False, saving_path="./", is_saving=True, 
     	                    policy_iteration_episode=1, init_method="zero", num_data=5000)
         results.extend(pi_env.run_policy_iteration())
-        print("finished one epoch")
     pd.DataFrame(pi_results).to_pickle('./cp_results.pkl')
 
 
@@ -104,5 +101,4 @@ if __name__ == '__main__':
         pi_env = get_pi_env(env_type="ab", exp_setup=exp_setup, loading_path="", is_loading=False, saving_path="./", is_saving=True, 
     	                    policy_iteration_episode=1, init_method="random", num_data=5000)
         results.extend(pi_env.run_policy_iteration())
-        print("finished one epoch")
     pd.DataFrame(pi_results).to_pickle('./ab_results.pkl')
