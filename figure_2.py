@@ -1,6 +1,6 @@
 """
 
-This script contains experiment set ups for results in figure 3.
+This script contains experiment set ups for results in figure 2.
 
 We did not run SVRG and SAGA in this experiment because they require computing the full gradient and each method is only allowed to use the dataset once. 
 
