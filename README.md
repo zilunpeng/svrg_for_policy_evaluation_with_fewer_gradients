@@ -1,4 +1,4 @@
-### Code for "SVRG for Policy Evaluation with Fewer Gradient Evaluations"
+## Code for "SVRG for Policy Evaluation with Fewer Gradient Evaluations"
 
 ### Dependencies
 ```
